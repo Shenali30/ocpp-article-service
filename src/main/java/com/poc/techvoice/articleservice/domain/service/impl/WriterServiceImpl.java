@@ -4,6 +4,7 @@ import com.poc.techvoice.articleservice.application.constants.LoggingConstants;
 import com.poc.techvoice.articleservice.application.enums.ResponseEnum;
 import com.poc.techvoice.articleservice.application.exception.type.ServerException;
 import com.poc.techvoice.articleservice.application.transport.request.entities.PublishArticleRequest;
+import com.poc.techvoice.articleservice.application.transport.request.entities.UpdateArticleRequest;
 import com.poc.techvoice.articleservice.application.transport.request.entities.UpdateProfileRequest;
 import com.poc.techvoice.articleservice.domain.entities.Article;
 import com.poc.techvoice.articleservice.domain.entities.Category;
@@ -91,6 +92,34 @@ public class WriterServiceImpl extends UtilityService implements WriterService {
 
     }
 
+    @Override
+    public BaseResponse updateArticle(UpdateArticleRequest content) throws ServerException, DomainException {
+
+        try {
+            log.debug(LoggingConstants.UPDATE_ARTICLE_LOG, "Update article", LoggingConstants.STARTED);
+            Optional<Article> articleOptional = articleRepository.findById(content.getArticleId());
+
+            if (articleOptional.isPresent() && articleOptional.get().getUser().getEmail().equals(content.getUserEmail())) {
+                Article article = articleOptional.get();
+                updateExistingArticle(article, content);
+
+                log.debug(LoggingConstants.UPDATE_ARTICLE_LOG, "Update article", LoggingConstants.ENDED);
+                return getSuccessBaseResponse("Updated article successfully");
+
+            } else {
+                log.error(LoggingConstants.UPDATE_ARTICLE_ERROR, ResponseEnum.INVALID_ARTICLE.getDesc(), ResponseEnum.INVALID_ARTICLE.getDesc(), null);
+                throw new DomainException(ResponseEnum.INVALID_ARTICLE.getDesc(), ResponseEnum.INVALID_ARTICLE.getCode(), ResponseEnum.INVALID_ARTICLE.getDisplayDesc());
+            }
+
+        } catch (DomainException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            log.error(LoggingConstants.UPDATE_ARTICLE_ERROR, ex.getMessage(), ResponseEnum.INTERNAL_ERROR.getDesc(), ex.getStackTrace());
+            throw new ServerException(ex.getMessage(), ResponseEnum.INTERNAL_ERROR.getCode(), ResponseEnum.INTERNAL_ERROR.getDisplayDesc());
+        }
+
+    }
+
     private void createNewArticle(PublishArticleRequest content, User user) throws DomainException {
 
         Optional<Category> categoryOptional = categoryRepository.findById(content.getCategoryId());
@@ -119,4 +148,25 @@ public class WriterServiceImpl extends UtilityService implements WriterService {
 
     }
 
+    private void updateExistingArticle(Article article, UpdateArticleRequest content) throws DomainException {
+
+        article.setTitle(content.getTitle());
+        article.setSummary(content.getSummary());
+        article.setDetails(content.getDetails());
+        article.setComments(content.getComments());
+
+        if (article.getCategory().getId() != content.getCategoryId()) {
+            Optional<Category> categoryOptional = categoryRepository.findById(content.getCategoryId());
+
+            if (categoryOptional.isPresent()) {
+                article.setCategory(categoryOptional.get());
+            } else {
+                log.error(LoggingConstants.UPDATE_ARTICLE_ERROR, ResponseEnum.INVALID_CATEGORY.getDesc(), ResponseEnum.INVALID_CATEGORY.getDesc(), null);
+                throw new DomainException(ResponseEnum.INVALID_CATEGORY.getDesc(), ResponseEnum.INVALID_CATEGORY.getCode(), ResponseEnum.INVALID_CATEGORY.getDisplayDesc());
+            }
+        }
+
+        articleRepository.save(article);
+
+    }
 }

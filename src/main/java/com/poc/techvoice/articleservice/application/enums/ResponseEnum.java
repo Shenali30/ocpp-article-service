@@ -7,6 +7,7 @@ public enum ResponseEnum {
     INVALID_USER("03", "The email address does not exist", "Invalid email address"),
     NO_PERMISSION_TO_PUBLISH("06", "User does not have permission to publish", "Please register as a Writer to publish articles"),
     INVALID_CATEGORY("07", "Invalid category", "Please select a valid category"),
+    INVALID_ARTICLE("08", "Invalid article", "This article does not exist or you do not have permission to update the article"),
     INTERNAL_ERROR("99", "Internal Error", "An Error Occurred. Please Contact Administrator");
 
     private final String code;

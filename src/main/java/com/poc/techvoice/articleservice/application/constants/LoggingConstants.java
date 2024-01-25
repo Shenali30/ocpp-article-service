@@ -23,4 +23,11 @@ public class LoggingConstants {
     public static final String PUBLISH_ARTICLE_RESPONSE_SENT = "PUBLISH ARTICLE RESPONSE SENT";
     public static final String PUBLISH_ARTICLE_LOG = "PUBLISH ARTICLE LOG | MESSAGE: {} | OPERATION: {}";
     public static final String PUBLISH_ARTICLE_ERROR = "PUBLISH ARTICLE ERROR | MESSAGE: {} | ERROR REASON: {}, ERROR STACKTRACE: {}";
+
+
+    // update article
+    public static final String UPDATE_ARTICLE_REQUEST_INITIATED = "UPDATE ARTICLE REQUEST INITIATED";
+    public static final String UPDATE_ARTICLE_RESPONSE_SENT = "UPDATE ARTICLE RESPONSE SENT";
+    public static final String UPDATE_ARTICLE_LOG = "UPDATE ARTICLE LOG | MESSAGE: {} | OPERATION: {}";
+    public static final String UPDATE_ARTICLE_ERROR = "UPDATE ARTICLE ERROR | MESSAGE: {} | ERROR REASON: {}, ERROR STACKTRACE: {}";
 }
