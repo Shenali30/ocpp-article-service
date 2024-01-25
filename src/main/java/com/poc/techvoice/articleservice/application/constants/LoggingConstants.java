@@ -16,4 +16,11 @@ public class LoggingConstants {
     public static final String EDIT_PROFILE_RESPONSE_SENT = "EDIT PROFILE RESPONSE SENT";
     public static final String EDIT_PROFILE_LOG = "EDIT PROFILE LOG | MESSAGE: {} | OPERATION: {}";
     public static final String EDIT_PROFILE_ERROR = "EDIT PROFILE ERROR | MESSAGE: {} | ERROR REASON: {}, ERROR STACKTRACE: {}";
+
+
+    // publish article
+    public static final String PUBLISH_ARTICLE_REQUEST_INITIATED = "PUBLISH ARTICLE REQUEST INITIATED";
+    public static final String PUBLISH_ARTICLE_RESPONSE_SENT = "PUBLISH ARTICLE RESPONSE SENT";
+    public static final String PUBLISH_ARTICLE_LOG = "PUBLISH ARTICLE LOG | MESSAGE: {} | OPERATION: {}";
+    public static final String PUBLISH_ARTICLE_ERROR = "PUBLISH ARTICLE ERROR | MESSAGE: {} | ERROR REASON: {}, ERROR STACKTRACE: {}";
 }

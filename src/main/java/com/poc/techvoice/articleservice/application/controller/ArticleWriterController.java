@@ -2,6 +2,7 @@ package com.poc.techvoice.articleservice.application.controller;
 
 import com.poc.techvoice.articleservice.application.constants.LoggingConstants;
 import com.poc.techvoice.articleservice.application.exception.type.ServerException;
+import com.poc.techvoice.articleservice.application.transport.request.entities.PublishArticleRequest;
 import com.poc.techvoice.articleservice.application.transport.request.entities.UpdateProfileRequest;
 import com.poc.techvoice.articleservice.application.validator.RequestEntityValidator;
 import com.poc.techvoice.articleservice.domain.entities.dto.response.BaseResponse;
@@ -33,6 +34,7 @@ public class ArticleWriterController extends BaseController {
         log.info(LoggingConstants.EDIT_PROFILE_REQUEST_INITIATED);
         log.debug(LoggingConstants.FULL_REQUEST, updateProfileRequest.toString());
 
+        setCurrentUser(request);
         validator.validate(updateProfileRequest);
         BaseResponse response = writerService.updateProfile(updateProfileRequest);
 
@@ -40,6 +42,26 @@ public class ArticleWriterController extends BaseController {
         log.debug(LoggingConstants.FULL_RESPONSE, response.toString());
 
         return new ResponseEntity<>(response, HttpStatus.OK);
+
+    }
+
+    @PostMapping("/publish")
+    public ResponseEntity<BaseResponse> publishArticle(@RequestHeader("user-id") String userId,
+                                                       @RequestBody PublishArticleRequest publishArticleRequest,
+                                                       HttpServletRequest request) throws DomainException, ServerException {
+
+        log.info(LoggingConstants.PUBLISH_ARTICLE_REQUEST_INITIATED);
+        log.debug(LoggingConstants.FULL_REQUEST, publishArticleRequest.toString());
+
+        setCurrentUser(request);
+        validator.validate(publishArticleRequest);
+        BaseResponse response = writerService.publishArticle(publishArticleRequest);
+
+        log.info(LoggingConstants.PUBLISH_ARTICLE_RESPONSE_SENT);
+        log.debug(LoggingConstants.FULL_RESPONSE, response.toString());
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+
 
     }
 
