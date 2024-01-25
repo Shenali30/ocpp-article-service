@@ -4,7 +4,9 @@ base-url:
   context: /tech-voice
 logging:
   level:
-    com.poc.techvoice.userservice: DEBUG
+    com.poc.techvoice.articleservice: DEBUG
+audit:
+  user: user-id
 spring:
   jpa:
     hibernate.ddl-auto: update
