@@ -9,6 +9,7 @@ public enum ResponseEnum {
     INVALID_CATEGORY("07", "Invalid category", "Please select a valid category"),
     INVALID_ARTICLE("08", "Invalid article", "This article does not exist or you do not have permission to modify the article"),
     NO_ARTICLE_DATA("09", "No article data found", "Articles are not available."),
+    NO_CATEGORY_DATA("10", "No category data found", "Categories are not available"),
     INTERNAL_ERROR("99", "Internal Error", "An Error Occurred. Please Contact Administrator");
 
     private final String code;

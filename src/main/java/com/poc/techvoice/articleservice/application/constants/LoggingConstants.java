@@ -44,4 +44,11 @@ public class LoggingConstants {
     public static final String LIST_ARTICLE_RESPONSE_SENT = "LIST ARTICLE RESPONSE SENT";
     public static final String LIST_ARTICLE_LOG = "LIST ARTICLE LOG | MESSAGE: {} | OPERATION: {}";
     public static final String LIST_ARTICLE_ERROR = "LIST ARTICLE ERROR | MESSAGE: {} | ERROR REASON: {}, ERROR STACKTRACE: {}";
+
+
+    // list article categories
+    public static final String LIST_CATEGORIES_REQUEST_INITIATED = "LIST CATEGORIES REQUEST INITIATED";
+    public static final String LIST_CATEGORIES_RESPONSE_SENT = "LIST CATEGORIES RESPONSE SENT";
+    public static final String LIST_CATEGORIES_LOG = "LIST CATEGORIES LOG | MESSAGE: {} | OPERATION: {}";
+    public static final String LIST_CATEGORIES_ERROR = "LIST CATEGORIES ERROR | MESSAGE: {} | ERROR REASON: {}, ERROR STACKTRACE: {}";
 }
