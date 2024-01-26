@@ -51,4 +51,11 @@ public class LoggingConstants {
     public static final String LIST_CATEGORIES_RESPONSE_SENT = "LIST CATEGORIES RESPONSE SENT";
     public static final String LIST_CATEGORIES_LOG = "LIST CATEGORIES LOG | MESSAGE: {} | OPERATION: {}";
     public static final String LIST_CATEGORIES_ERROR = "LIST CATEGORIES ERROR | MESSAGE: {} | ERROR REASON: {}, ERROR STACKTRACE: {}";
+
+
+    // subscribe to category
+    public static final String SUBSCRIBE_REQUEST_INITIATED = "SUBSCRIBE REQUEST INITIATED";
+    public static final String SUBSCRIBE_RESPONSE_SENT = "SUBSCRIBE RESPONSE SENT";
+    public static final String SUBSCRIBE_LOG = "SUBSCRIBE LOG | MESSAGE: {} | OPERATION: {}";
+    public static final String SUBSCRIBE_ERROR = "SUBSCRIBE ERROR | MESSAGE: {} | ERROR REASON: {}, ERROR STACKTRACE: {}";
 }
