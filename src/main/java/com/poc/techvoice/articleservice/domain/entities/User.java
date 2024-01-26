@@ -1,5 +1,6 @@
 package com.poc.techvoice.articleservice.domain.entities;
 
+import com.poc.techvoice.articleservice.domain.enums.Channel;
 import com.poc.techvoice.articleservice.domain.enums.Role;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -26,6 +27,9 @@ public class User extends AuditEntity {
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false, length = 6)
     private Role role;
+    @Enumerated(value = EnumType.STRING)
+    @Column(nullable = false, length = 10)
+    private Channel notificationChannel; // add to ERD
     private String activeSessionId;
     private String name;
     private String profileDescription;

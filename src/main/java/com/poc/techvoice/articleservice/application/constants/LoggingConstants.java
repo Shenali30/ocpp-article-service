@@ -58,4 +58,6 @@ public class LoggingConstants {
     public static final String SUBSCRIBE_RESPONSE_SENT = "SUBSCRIBE RESPONSE SENT";
     public static final String SUBSCRIBE_LOG = "SUBSCRIBE LOG | MESSAGE: {} | OPERATION: {}";
     public static final String SUBSCRIBE_ERROR = "SUBSCRIBE ERROR | MESSAGE: {} | ERROR REASON: {}, ERROR STACKTRACE: {}";
+
+    public static final String EMAIL_SEND_ERROR = "EMAIL SEND ERROR | MESSAGE: {} | ERROR REASON: {}, ERROR STACKTRACE: {}";
 }

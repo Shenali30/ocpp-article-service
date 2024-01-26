@@ -20,6 +20,6 @@ public class Category {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Article> articleList;
-    @ManyToMany(mappedBy = "subscribedCategories", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "subscribedCategories", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<User> subscribedUsers;
 }

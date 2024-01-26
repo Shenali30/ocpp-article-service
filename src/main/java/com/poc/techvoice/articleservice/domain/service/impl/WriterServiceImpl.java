@@ -9,10 +9,13 @@ import com.poc.techvoice.articleservice.application.transport.request.entities.U
 import com.poc.techvoice.articleservice.domain.entities.Article;
 import com.poc.techvoice.articleservice.domain.entities.Category;
 import com.poc.techvoice.articleservice.domain.entities.User;
+import com.poc.techvoice.articleservice.domain.entities.dto.NotificationDto;
 import com.poc.techvoice.articleservice.domain.entities.dto.response.BaseResponse;
+import com.poc.techvoice.articleservice.domain.enums.Action;
 import com.poc.techvoice.articleservice.domain.enums.Role;
 import com.poc.techvoice.articleservice.domain.exception.DomainException;
 import com.poc.techvoice.articleservice.domain.service.WriterService;
+import com.poc.techvoice.articleservice.domain.service.notification.ArticleHub;
 import com.poc.techvoice.articleservice.domain.util.UtilityService;
 import com.poc.techvoice.articleservice.external.repository.ArticleRepository;
 import com.poc.techvoice.articleservice.external.repository.CategoryRepository;
@@ -32,6 +35,8 @@ public class WriterServiceImpl extends UtilityService implements WriterService {
     private final UserRepository userRepository;
     private final ArticleRepository articleRepository;
     private final CategoryRepository categoryRepository;
+    private final ArticleHub articleHub;
+
 
     @Override
     public BaseResponse updateProfile(UpdateProfileRequest request) throws ServerException, DomainException {
@@ -74,7 +79,10 @@ public class WriterServiceImpl extends UtilityService implements WriterService {
             User user = userRepository.findByEmail(content.getUserEmail());
 
             if (Objects.nonNull(user) && Role.WRITER.equals(user.getRole())) {
-                createNewArticle(content, user);
+                Article article = createNewArticle(content, user);
+
+                NotificationDto notification = getNotification(article, Action.PUBLISH);
+                articleHub.setNotification(notification, content.getCategoryId());
 
                 log.debug(LoggingConstants.PUBLISH_ARTICLE_LOG, "Publish article", LoggingConstants.ENDED);
                 return getSuccessBaseResponse("Published article successfully");
@@ -147,7 +155,7 @@ public class WriterServiceImpl extends UtilityService implements WriterService {
 
     }
 
-    private void createNewArticle(PublishArticleRequest content, User user) throws DomainException {
+    private Article createNewArticle(PublishArticleRequest content, User user) throws DomainException {
 
         Optional<Category> categoryOptional = categoryRepository.findById(content.getCategoryId());
 
@@ -167,6 +175,7 @@ public class WriterServiceImpl extends UtilityService implements WriterService {
             articleCategory.getArticleList().add(article);
 
             articleRepository.save(article);
+            return article;
 
         } else {
             log.error(LoggingConstants.PUBLISH_ARTICLE_ERROR, ResponseEnum.INVALID_CATEGORY.getDesc(), ResponseEnum.INVALID_CATEGORY.getDesc(), null);
@@ -194,6 +203,15 @@ public class WriterServiceImpl extends UtilityService implements WriterService {
         }
 
         articleRepository.save(article);
+
+    }
+
+    private NotificationDto getNotification(Article article, Action action) {
+        return NotificationDto.builder()
+                .articleTitle(article.getTitle())
+                .action(action)
+                .category(article.getCategory().getName())
+                .build();
 
     }
 }
