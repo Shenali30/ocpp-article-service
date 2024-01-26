@@ -65,8 +65,9 @@ public class ArticleWriterController extends BaseController {
 
     }
 
-    @PatchMapping("article/update")
+    @PatchMapping("article/update/{articleId}")
     public ResponseEntity<BaseResponse> updateArticle(@RequestHeader("user-id") String userId,
+                                                      @PathVariable("articleId") Integer articleId,
                                                       @RequestBody UpdateArticleRequest updateArticleRequest,
                                                       HttpServletRequest request) throws DomainException, ServerException {
 
@@ -75,12 +76,31 @@ public class ArticleWriterController extends BaseController {
 
         setCurrentUser(request);
         validator.validate(updateArticleRequest);
-        BaseResponse response = writerService.updateArticle(updateArticleRequest);
+        BaseResponse response = writerService.updateArticle(updateArticleRequest, articleId);
 
         log.info(LoggingConstants.UPDATE_ARTICLE_RESPONSE_SENT);
         log.debug(LoggingConstants.FULL_RESPONSE, response.toString());
 
         return new ResponseEntity<>(response, HttpStatus.OK);
+
+    }
+
+    @DeleteMapping("/article/delete/{articleId}")
+    public ResponseEntity<BaseResponse> deleteArticle(@RequestHeader("user-id") String userId,
+                                                      @PathVariable("articleId") Integer articleId,
+                                                      HttpServletRequest request) throws DomainException, ServerException {
+
+        log.info(LoggingConstants.DELETE_ARTICLE_REQUEST_INITIATED);
+        log.debug(LoggingConstants.FULL_REQUEST, "article to delete: " + articleId);
+
+        setCurrentUser(request);
+        BaseResponse response = writerService.deleteArticle(userId, articleId);
+
+        log.info(LoggingConstants.DELETE_ARTICLE_RESPONSE_SENT);
+        log.debug(LoggingConstants.FULL_RESPONSE, response.toString());
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+
 
     }
 

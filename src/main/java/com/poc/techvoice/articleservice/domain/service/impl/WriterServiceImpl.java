@@ -93,11 +93,11 @@ public class WriterServiceImpl extends UtilityService implements WriterService {
     }
 
     @Override
-    public BaseResponse updateArticle(UpdateArticleRequest content) throws ServerException, DomainException {
+    public BaseResponse updateArticle(UpdateArticleRequest content, Integer articleId) throws ServerException, DomainException {
 
         try {
             log.debug(LoggingConstants.UPDATE_ARTICLE_LOG, "Update article", LoggingConstants.STARTED);
-            Optional<Article> articleOptional = articleRepository.findById(content.getArticleId());
+            Optional<Article> articleOptional = articleRepository.findById(articleId);
 
             if (articleOptional.isPresent() && articleOptional.get().getUser().getEmail().equals(content.getUserEmail())) {
                 Article article = articleOptional.get();
@@ -107,7 +107,7 @@ public class WriterServiceImpl extends UtilityService implements WriterService {
                 return getSuccessBaseResponse("Updated article successfully");
 
             } else {
-                log.error(LoggingConstants.UPDATE_ARTICLE_ERROR, ResponseEnum.INVALID_ARTICLE.getDesc(), ResponseEnum.INVALID_ARTICLE.getDesc(), null);
+                log.error(LoggingConstants.UPDATE_ARTICLE_ERROR, ResponseEnum.INVALID_ARTICLE.getDesc(), ResponseEnum.INVALID_ARTICLE.getDisplayDesc(), null);
                 throw new DomainException(ResponseEnum.INVALID_ARTICLE.getDesc(), ResponseEnum.INVALID_ARTICLE.getCode(), ResponseEnum.INVALID_ARTICLE.getDisplayDesc());
             }
 
@@ -115,6 +115,33 @@ public class WriterServiceImpl extends UtilityService implements WriterService {
             throw ex;
         } catch (Exception ex) {
             log.error(LoggingConstants.UPDATE_ARTICLE_ERROR, ex.getMessage(), ResponseEnum.INTERNAL_ERROR.getDesc(), ex.getStackTrace());
+            throw new ServerException(ex.getMessage(), ResponseEnum.INTERNAL_ERROR.getCode(), ResponseEnum.INTERNAL_ERROR.getDisplayDesc());
+        }
+
+    }
+
+    @Override
+    public BaseResponse deleteArticle(String userEmail, Integer articleId) throws ServerException, DomainException {
+
+        try {
+            log.debug(LoggingConstants.DELETE_ARTICLE_LOG, "Delete article", LoggingConstants.STARTED);
+            Optional<Article> articleOptional = articleRepository.findById(articleId);
+
+            if (articleOptional.isPresent() && articleOptional.get().getUser().getEmail().equals(userEmail)) {
+
+                articleRepository.deleteById(articleId);
+                log.debug(LoggingConstants.UPDATE_ARTICLE_LOG, "Delete article", LoggingConstants.ENDED);
+                return getSuccessBaseResponse("Deleted article successfully");
+
+            } else {
+                log.error(LoggingConstants.DELETE_ARTICLE_ERROR, ResponseEnum.INVALID_ARTICLE.getDesc(), ResponseEnum.INVALID_ARTICLE.getDisplayDesc(), null);
+                throw new DomainException(ResponseEnum.INVALID_ARTICLE.getDesc(), ResponseEnum.INVALID_ARTICLE.getCode(), ResponseEnum.INVALID_ARTICLE.getDisplayDesc());
+            }
+
+        } catch (DomainException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            log.error(LoggingConstants.DELETE_ARTICLE_ERROR, ex.getMessage(), ResponseEnum.INTERNAL_ERROR.getDesc(), ex.getStackTrace());
             throw new ServerException(ex.getMessage(), ResponseEnum.INTERNAL_ERROR.getCode(), ResponseEnum.INTERNAL_ERROR.getDisplayDesc());
         }
 

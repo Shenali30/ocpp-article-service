@@ -13,5 +13,7 @@ public interface WriterService {
 
     BaseResponse publishArticle(PublishArticleRequest request) throws ServerException, DomainException;
 
-    BaseResponse updateArticle(UpdateArticleRequest request) throws ServerException, DomainException;
+    BaseResponse updateArticle(UpdateArticleRequest request, Integer articleId) throws ServerException, DomainException;
+
+    BaseResponse deleteArticle(String userEmail, Integer articleId) throws ServerException, DomainException;
 }
