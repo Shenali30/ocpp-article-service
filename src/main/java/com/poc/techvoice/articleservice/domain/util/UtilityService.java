@@ -4,12 +4,34 @@ import com.poc.techvoice.articleservice.application.enums.ResponseEnum;
 import com.poc.techvoice.articleservice.domain.entities.dto.response.BaseResponse;
 import com.poc.techvoice.articleservice.domain.entities.dto.response.ResponseHeader;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.util.Date;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.temporal.ChronoField;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 public class UtilityService {
+
+    private static final Map<Long, String> ORDINAL_MAP;
+
+    static {
+        ORDINAL_MAP = new HashMap<>();
+        ORDINAL_MAP.put(1L, "st");
+        ORDINAL_MAP.put(2L, "nd");
+        ORDINAL_MAP.put(3L, "rd");
+        ORDINAL_MAP.put(21L, "st");
+        ORDINAL_MAP.put(22L, "nd");
+        ORDINAL_MAP.put(23L, "rd");
+        ORDINAL_MAP.put(31L, "st");
+
+        for (long i = 4; i <= 30; i++) {
+            if (!ORDINAL_MAP.containsKey(i)) {
+                ORDINAL_MAP.put(i, "th");
+            }
+        }
+    }
 
     protected ResponseHeader getSuccessResponseHeader(String successDisplayMessage) {
 
@@ -27,9 +49,19 @@ public class UtilityService {
                 .build();
     }
 
-    protected String convertDateToString(Date date) {
-        String datePattern = "yyyy-MM-dd'T'HH:mm:ss";
-        DateFormat df = new SimpleDateFormat(datePattern);
-        return df.format(date);
+    protected String convertDateToDescriptiveString(LocalDateTime dateTime) {
+
+        if (Objects.nonNull(dateTime)) {
+            DateTimeFormatter formatter = new DateTimeFormatterBuilder()
+                    .appendPattern("d")
+                    .appendText(ChronoField.DAY_OF_MONTH, ORDINAL_MAP)
+                    .appendPattern(" MMMM, uuuu")
+                    .toFormatter();
+
+            return dateTime.format(formatter);
+        } else {
+            return null;
+        }
+
     }
 }

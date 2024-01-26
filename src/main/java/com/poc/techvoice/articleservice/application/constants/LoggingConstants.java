@@ -37,4 +37,11 @@ public class LoggingConstants {
     public static final String DELETE_ARTICLE_RESPONSE_SENT = "DELETE ARTICLE RESPONSE SENT";
     public static final String DELETE_ARTICLE_LOG = "DELETE ARTICLE LOG | MESSAGE: {} | OPERATION: {}";
     public static final String DELETE_ARTICLE_ERROR = "DELETE ARTICLE ERROR | MESSAGE: {} | ERROR REASON: {}, ERROR STACKTRACE: {}";
+
+
+    // list all article
+    public static final String LIST_ARTICLE_REQUEST_INITIATED = "LIST ARTICLE REQUEST INITIATED";
+    public static final String LIST_ARTICLE_RESPONSE_SENT = "LIST ARTICLE RESPONSE SENT";
+    public static final String LIST_ARTICLE_LOG = "LIST ARTICLE LOG | MESSAGE: {} | OPERATION: {}";
+    public static final String LIST_ARTICLE_ERROR = "LIST ARTICLE ERROR | MESSAGE: {} | ERROR REASON: {}, ERROR STACKTRACE: {}";
 }
