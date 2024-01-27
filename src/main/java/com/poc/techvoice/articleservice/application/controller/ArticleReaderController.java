@@ -25,7 +25,7 @@ public class ArticleReaderController extends BaseController {
     private final ReaderService readerService;
     private final RequestEntityValidator validator;
 
-    @GetMapping("/view")
+    @GetMapping("article/view")
     public ResponseEntity<ViewArticleListResponse> listAllArticles(@RequestHeader("user-id") String userId,
                                                                    @RequestParam("categoryId") Integer categoryId,
                                                                    @RequestParam("pageNo") Integer pageNumber,
