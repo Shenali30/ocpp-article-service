@@ -62,4 +62,7 @@ public class LoggingConstants {
     public static final String EMAIL_SEND_ERROR = "EMAIL SEND ERROR | MESSAGE: {} | ERROR REASON: {}, ERROR STACKTRACE: {}";
 
     public static final String NOTIFICATION_LOG = "NOTIFICATION LOG | MESSAGE: {} | OPERATION: {}";
+
+    public static final String TOKEN_LOG = "TOKEN LOG | MESSAGE: {} | OPERATION: {}";
+    public static final String TOKEN_ERROR = "TOKEN ERROR | MESSAGE: {} | ERROR REASON: {}, ERROR STACKTRACE: {}";
 }

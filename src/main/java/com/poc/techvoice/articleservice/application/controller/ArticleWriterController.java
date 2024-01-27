@@ -29,6 +29,7 @@ public class ArticleWriterController extends BaseController {
 
     @PostMapping("/profile")
     public ResponseEntity<BaseResponse> editUserProfile(@RequestHeader("user-id") String userId,
+                                                        @RequestHeader("Authorization") String authToken,
                                                         @RequestBody UpdateProfileRequest updateProfileRequest,
                                                         HttpServletRequest request) throws DomainException, ServerException {
 
@@ -48,6 +49,7 @@ public class ArticleWriterController extends BaseController {
 
     @PostMapping("article/publish")
     public ResponseEntity<BaseResponse> publishArticle(@RequestHeader("user-id") String userId,
+                                                       @RequestHeader("Authorization") String authToken,
                                                        @RequestBody PublishArticleRequest publishArticleRequest,
                                                        HttpServletRequest request) throws DomainException, ServerException {
 
@@ -67,6 +69,7 @@ public class ArticleWriterController extends BaseController {
 
     @PatchMapping("article/update/{articleId}")
     public ResponseEntity<BaseResponse> updateArticle(@RequestHeader("user-id") String userId,
+                                                      @RequestHeader("Authorization") String authToken,
                                                       @PathVariable("articleId") Integer articleId,
                                                       @RequestBody UpdateArticleRequest updateArticleRequest,
                                                       HttpServletRequest request) throws DomainException, ServerException {
@@ -87,6 +90,7 @@ public class ArticleWriterController extends BaseController {
 
     @DeleteMapping("/article/delete/{articleId}")
     public ResponseEntity<BaseResponse> deleteArticle(@RequestHeader("user-id") String userId,
+                                                      @RequestHeader("Authorization") String authToken,
                                                       @PathVariable("articleId") Integer articleId,
                                                       HttpServletRequest request) throws DomainException, ServerException {
 

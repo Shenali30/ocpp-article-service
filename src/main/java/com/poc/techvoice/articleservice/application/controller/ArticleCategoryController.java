@@ -26,6 +26,7 @@ public class ArticleCategoryController extends BaseController {
 
     @GetMapping
     public ResponseEntity<ViewCategoriesResponse> listAllCategories(@RequestHeader("user-id") String userId,
+                                                                    @RequestHeader("Authorization") String authToken,
                                                                     HttpServletRequest request) throws DomainException, ServerException {
 
         log.info(LoggingConstants.LIST_CATEGORIES_REQUEST_INITIATED);

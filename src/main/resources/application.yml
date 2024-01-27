@@ -7,6 +7,9 @@ logging:
     com.poc.techvoice.articleservice: DEBUG
 audit:
   user: user-id
+security:
+  jwt:
+    sign-key: aaASWKddlTRRVMs_WEERANvvapotningu_WANWiresharkqqaOOPQUBE
 task:
   executor:
     pool:

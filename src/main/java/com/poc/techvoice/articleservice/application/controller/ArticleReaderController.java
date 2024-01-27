@@ -27,6 +27,7 @@ public class ArticleReaderController extends BaseController {
 
     @GetMapping("article/view")
     public ResponseEntity<ViewArticleListResponse> listAllArticles(@RequestHeader("user-id") String userId,
+                                                                   @RequestHeader("Authorization") String authToken,
                                                                    @RequestParam("categoryId") Integer categoryId,
                                                                    @RequestParam("pageNo") Integer pageNumber,
                                                                    @RequestParam("pageSize") Integer pageSize,
@@ -47,6 +48,7 @@ public class ArticleReaderController extends BaseController {
 
     @PostMapping("/subscribe")
     public ResponseEntity<BaseResponse> subscribeToCategory(@RequestHeader("user-id") String userId,
+                                                            @RequestHeader("Authorization") String authToken,
                                                             @RequestBody SubscribeRequest subscribeRequest,
                                                             HttpServletRequest request) throws DomainException, ServerException {
 
