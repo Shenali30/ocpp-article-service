@@ -8,6 +8,7 @@ import com.poc.techvoice.articleservice.domain.entities.dto.response.BaseRespons
 import com.poc.techvoice.articleservice.domain.entities.dto.response.ViewArticleListResponse;
 import com.poc.techvoice.articleservice.domain.exception.DomainException;
 import com.poc.techvoice.articleservice.domain.service.ReaderService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 @Slf4j
 @RestController
 @AllArgsConstructor
+@Tag(name = "Article Reader Controller")
 @RequestMapping("${base-url.context}/reader")
 public class ArticleReaderController extends BaseController {
 

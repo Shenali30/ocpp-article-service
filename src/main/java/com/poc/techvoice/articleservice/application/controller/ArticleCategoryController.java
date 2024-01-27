@@ -5,6 +5,7 @@ import com.poc.techvoice.articleservice.application.exception.type.ServerExcepti
 import com.poc.techvoice.articleservice.domain.entities.dto.response.ViewCategoriesResponse;
 import com.poc.techvoice.articleservice.domain.exception.DomainException;
 import com.poc.techvoice.articleservice.domain.service.CategoryService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 @Slf4j
 @RestController
 @AllArgsConstructor
+@Tag(name = "Article Category Controller")
 @RequestMapping("${base-url.context}/categories")
 public class ArticleCategoryController extends BaseController {
 

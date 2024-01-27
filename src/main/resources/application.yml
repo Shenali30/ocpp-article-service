@@ -2,9 +2,11 @@ server:
   port: 8081
 base-url:
   context: /tech-voice
+app:
+  host: localhost:8081
 logging:
   level:
-    com.poc.techvoice.articleservice: DEBUG
+    com.poc.techvoice.articleservice: INFO
 audit:
   user: user-id
 security:

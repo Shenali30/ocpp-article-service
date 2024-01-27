@@ -7,6 +7,7 @@ import com.poc.techvoice.articleservice.domain.service.AuthService;
 import com.poc.techvoice.articleservice.domain.service.JwtService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -24,6 +25,8 @@ public class WebSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http.cors().and().csrf().disable().authorizeRequests()
+                .antMatchers("/v3/api-docs/*", "/v3/api-docs","/swagger-ui/**", "/swagger-ui.html", "/webjars/**").permitAll()
+                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .anyRequest().authenticated()
 
                 .and().exceptionHandling().accessDeniedHandler(new RestAccessDeniedHandler())
