@@ -60,4 +60,6 @@ public class LoggingConstants {
     public static final String SUBSCRIBE_ERROR = "SUBSCRIBE ERROR | MESSAGE: {} | ERROR REASON: {}, ERROR STACKTRACE: {}";
 
     public static final String EMAIL_SEND_ERROR = "EMAIL SEND ERROR | MESSAGE: {} | ERROR REASON: {}, ERROR STACKTRACE: {}";
+
+    public static final String NOTIFICATION_LOG = "NOTIFICATION LOG | MESSAGE: {} | OPERATION: {}";
 }

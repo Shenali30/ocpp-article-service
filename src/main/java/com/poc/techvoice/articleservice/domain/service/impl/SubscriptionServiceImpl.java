@@ -1,5 +1,6 @@
 package com.poc.techvoice.articleservice.domain.service.impl;
 
+import com.poc.techvoice.articleservice.application.constants.LoggingConstants;
 import com.poc.techvoice.articleservice.domain.entities.Category;
 import com.poc.techvoice.articleservice.domain.entities.User;
 import com.poc.techvoice.articleservice.domain.entities.dto.NotificationDto;
@@ -29,6 +30,8 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
     @PostConstruct
     private void initializeSubscribers() {
+
+        log.info("Fetching initial subscribers for all article categories");
         Set<Category> articleCategories = categoryRepository.findAllCategories();
         articleCategories.forEach(category -> {
             Integer categoryId = category.getId();
@@ -47,6 +50,9 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     @Async
     @Override
     public void notifySubscriber(NotificationDto notification, Integer categoryId) {
+        log.debug(LoggingConstants.NOTIFICATION_LOG, "Send notification", LoggingConstants.STARTED);
+
         articleHub.setNotification(notification, categoryId);
+        log.debug(LoggingConstants.NOTIFICATION_LOG, "Send notification", LoggingConstants.ENDED);
     }
 }
