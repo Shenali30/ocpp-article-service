@@ -1,0 +1,10 @@
+package com.poc.techvoice.articleservice.domain.service;
+
+import com.poc.techvoice.articleservice.application.exception.type.ServerException;
+import com.poc.techvoice.articleservice.domain.entities.dto.response.ViewCategoriesResponse;
+import com.poc.techvoice.articleservice.domain.exception.DomainException;
+
+public interface CategoryService {
+
+    ViewCategoriesResponse listArticleCategories() throws ServerException, DomainException;
+}
