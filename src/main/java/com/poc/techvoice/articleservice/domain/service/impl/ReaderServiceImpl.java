@@ -13,6 +13,9 @@ import com.poc.techvoice.articleservice.domain.entities.dto.response.BaseRespons
 import com.poc.techvoice.articleservice.domain.entities.dto.response.ViewArticleListResponse;
 import com.poc.techvoice.articleservice.domain.exception.DomainException;
 import com.poc.techvoice.articleservice.domain.service.ReaderService;
+import com.poc.techvoice.articleservice.domain.service.notification.ArticleHub;
+import com.poc.techvoice.articleservice.domain.service.notification.Observer;
+import com.poc.techvoice.articleservice.domain.service.notification.Subscriber;
 import com.poc.techvoice.articleservice.domain.util.UtilityService;
 import com.poc.techvoice.articleservice.external.repository.ArticleRepository;
 import com.poc.techvoice.articleservice.external.repository.CategoryRepository;
@@ -37,6 +40,8 @@ public class ReaderServiceImpl extends UtilityService implements ReaderService {
     private final ArticleRepository articleRepository;
     private final CategoryRepository categoryRepository;
     private final UserRepository userRepository;
+    private final RoutingFactory routingFactory;
+    private final ArticleHub articleHub;
 
     @Override
     public ViewArticleListResponse listArticles(Integer categoryId, Integer pageNumber, Integer pageSize) throws ServerException, DomainException {
@@ -86,6 +91,10 @@ public class ReaderServiceImpl extends UtilityService implements ReaderService {
 
                 user.getSubscribedCategories().add(categoryOptional.get());
                 userRepository.save(user);
+
+                // add the subscriber to the list of in-memory subscribers
+                Observer subscriber = new Subscriber(routingFactory, user.getEmail(), user.getNotificationChannel());
+                articleHub.registerObserver(subscriber, categoryOptional.get().getId());
 
                 log.debug(LoggingConstants.SUBSCRIBE_LOG, "Subscribe to category", LoggingConstants.ENDED);
                 return getSuccessBaseResponse("You have subscribed to the category successfully");

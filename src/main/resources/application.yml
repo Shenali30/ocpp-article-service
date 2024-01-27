@@ -7,6 +7,12 @@ logging:
     com.poc.techvoice.articleservice: DEBUG
 audit:
   user: user-id
+task:
+  executor:
+    pool:
+      core-size: 100
+      max-size: 100
+    queue-capacity: 1000
 spring:
   jpa:
     hibernate.ddl-auto: update

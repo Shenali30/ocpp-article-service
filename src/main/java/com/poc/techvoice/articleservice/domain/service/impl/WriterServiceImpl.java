@@ -14,8 +14,8 @@ import com.poc.techvoice.articleservice.domain.entities.dto.response.BaseRespons
 import com.poc.techvoice.articleservice.domain.enums.Action;
 import com.poc.techvoice.articleservice.domain.enums.Role;
 import com.poc.techvoice.articleservice.domain.exception.DomainException;
+import com.poc.techvoice.articleservice.domain.service.SubscriptionService;
 import com.poc.techvoice.articleservice.domain.service.WriterService;
-import com.poc.techvoice.articleservice.domain.service.notification.ArticleHub;
 import com.poc.techvoice.articleservice.domain.util.UtilityService;
 import com.poc.techvoice.articleservice.external.repository.ArticleRepository;
 import com.poc.techvoice.articleservice.external.repository.CategoryRepository;
@@ -35,7 +35,7 @@ public class WriterServiceImpl extends UtilityService implements WriterService {
     private final UserRepository userRepository;
     private final ArticleRepository articleRepository;
     private final CategoryRepository categoryRepository;
-    private final ArticleHub articleHub;
+    private final SubscriptionService subscriptionService;
 
 
     @Override
@@ -81,8 +81,9 @@ public class WriterServiceImpl extends UtilityService implements WriterService {
             if (Objects.nonNull(user) && Role.WRITER.equals(user.getRole())) {
                 Article article = createNewArticle(content, user);
 
+                // notify subscribers
                 NotificationDto notification = getNotification(article, Action.PUBLISH);
-                articleHub.setNotification(notification, content.getCategoryId());
+                subscriptionService.notifySubscriber(notification, content.getCategoryId());
 
                 log.debug(LoggingConstants.PUBLISH_ARTICLE_LOG, "Publish article", LoggingConstants.ENDED);
                 return getSuccessBaseResponse("Published article successfully");
@@ -111,6 +112,10 @@ public class WriterServiceImpl extends UtilityService implements WriterService {
                 Article article = articleOptional.get();
                 updateExistingArticle(article, content);
 
+                // notify subscribers
+                NotificationDto notification = getNotification(article, Action.UPDATE);
+                subscriptionService.notifySubscriber(notification, content.getCategoryId());
+
                 log.debug(LoggingConstants.UPDATE_ARTICLE_LOG, "Update article", LoggingConstants.ENDED);
                 return getSuccessBaseResponse("Updated article successfully");
 
@@ -138,6 +143,11 @@ public class WriterServiceImpl extends UtilityService implements WriterService {
             if (articleOptional.isPresent() && articleOptional.get().getUser().getEmail().equals(userEmail)) {
 
                 articleRepository.deleteById(articleId);
+
+                // notify subscribers
+                NotificationDto notification = getNotification(articleOptional.get(), Action.DELETE);
+                subscriptionService.notifySubscriber(notification, articleOptional.get().getCategory().getId());
+
                 log.debug(LoggingConstants.UPDATE_ARTICLE_LOG, "Delete article", LoggingConstants.ENDED);
                 return getSuccessBaseResponse("Deleted article successfully");
 
